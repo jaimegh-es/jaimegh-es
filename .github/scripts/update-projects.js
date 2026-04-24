@@ -6,7 +6,11 @@ const README_PATH = path.join(__dirname, '../../README.md');
 
 async function fetchProjects() {
   try {
-    const response = await fetch(PROJECTS_URL);
+    const response = await fetch(PROJECTS_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (github-action-bot; jaimegh-portfolio-updater)'
+      }
+    });
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     return await response.json();
   } catch (error) {

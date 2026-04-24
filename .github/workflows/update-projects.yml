@@ -1,12 +1,19 @@
 name: Update Inled Projects
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '0 2 * * *' # Every day at 02:00 UTC
   workflow_dispatch: # Allow manual trigger
 
 jobs:
   update-readme:
+    if: |
+      github.event_name == 'schedule' || 
+      github.event_name == 'workflow_dispatch' || 
+      contains(github.event.head_commit.message, '[ACTION]')
     runs-on: ubuntu-latest
     permissions:
       contents: write
