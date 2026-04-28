@@ -23,7 +23,7 @@
   <tr>
     <td align="center" width="250" valign="top">
       <a href="https://inled.es/apps/agent-tunnel" target="_blank">
-        <img src="https://hosted.inled.es/1/agent-tunnel-churro.png" width="80" alt="Agent Tunnel logo"><br>
+        <img src="https://hosted.inled.es/new-agent-tunnel.png" width="80" alt="Agent Tunnel logo"><br>
         <b>Agent Tunnel</b>
       </a><br>
       <sub>Acceso remoto seguro para tus agentes de IA: monta carpetas y redirige comandos.</sub>
