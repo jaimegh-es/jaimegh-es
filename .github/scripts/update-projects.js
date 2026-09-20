@@ -4,6 +4,19 @@ const path = require('path');
 const PROJECTS_URL = 'https://inled.es/projects.json';
 const README_PATH = path.join(__dirname, '../../README.md');
 
+// hosted.inled.es responde con un 302 a los release assets de GitHub, que
+// llegan como application/octet-stream y GitHub Camo (el proxy de imágenes de
+// los README) rechaza con "Non-Image content-type returned". /img/ re-sirve la
+// imagen inline con su MIME real, así que el README apunta a /img/.
+// Se normalizan tanto la raíz a secas como los prefijos /cdn/ y /1/ (los assets
+// viven en la release 'assets'); Cloudflare Pages los estáticos puros sí
+// funcionan con Camo, pero /1/ resulta servir HTML, así que mejor /img/ siempre.
+function logoForReadme(url) {
+  return typeof url === 'string'
+    ? url.replace(/^https:\/\/hosted\.inled\.es\/(?:cdn\/|1\/)?([^/]+)$/, 'https://hosted.inled.es/img/$1')
+    : url;
+}
+
 async function fetchProjects() {
   try {
     const response = await fetch(PROJECTS_URL, {
@@ -30,7 +43,7 @@ function renderProjects(projects) {
 
     html += `    <td align="center" width="250" valign="top">
       <a href="${project.link}" target="_blank">
-        <img src="${project.logo}" width="80" alt="${project.name} logo"><br>
+        <img src="${logoForReadme(project.logo)}" width="80" alt="${project.name} logo"><br>
         <b>${project.name}</b>
       </a><br>
       <sub>${project.description}</sub>
